@@ -1,13 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="inside-container">
 
-	<stargzr:if spec="${message != ''}">
+	<a:if spec="${message != ''}">
 		<p class="notify">${message}</p>
-	</stargzr:if>
+	</a:if>
 
 	<h1>Users</h1>
-	<stargzr:if spec="${users.size() > 0}">
+	<a:if spec="${users.size() > 0}">
 		<table class="table table-condensed">
 			<thead>
 				<tr>
@@ -18,18 +17,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				<stargzr:foreach items="${users}" var="userCredential" >
+				<a:foreach items="${users}" var="userCredential" >
 					<tr>
 						<td>${userCredential.id}</td>
 						<td>${userCredential.name}</td>
 						<td>${userCredential.phone}</td>
 						<td><a href="/users/edit/${userCredential.id}" title="Edit" class="button retro">Edit</a>
 					</tr>
-				</stargzr:foreach>
+				</a:foreach>
 			</tbody>
 		</table>
-	</stargzr:if>
-	<stargzr:if spec="${users.size() == 0}">
+	</a:if>
+	<a:if spec="${users.size() == 0}">
 		<p>No users created yet.</p>
-	</stargzr:if>
+	</a:if>
 </div>

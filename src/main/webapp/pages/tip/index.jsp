@@ -87,23 +87,22 @@
     }
 </style>
 
-    <stargzr:if spec="${message != ''}">
+    <a:if spec="${message != ''}">
         <p class="notify">${message}</p>
-    </stargzr:if>
+    </a:if>
 
-    <stargzr:if spec="${recipient.imageUri != ''}">
-        <img src="${recipient.imageUri}" style="border-radius: 101px;border:solid 1px #deeaea;padding:7px;margin:20px 0px 10px;width:130px;"/>
-    </stargzr:if>
+    <a:if spec="${recipient.photo != ''}">
+        <img src="${recipient.photo}" style="border-radius: 101px;border:solid 1px #deeaea;padding:7px;margin:20px 0px 10px;width:130px;"/>
+    </a:if>
 
     <h1 style="font-size:90px">${recipient.name}!</h1>
 
-
-    <stargzr:if spec="${recipient.stripeAccountId == ''}">
+    <a:if spec="${recipient.stripeAccountId == ''}">
         <p class="notify">This person has not finished the registration process.
             Be patient, they may be new.</p>
-    </stargzr:if>
+    </a:if>
 
-    <stargzr:if spec="${recipient.stripeAccountId != ''}">
+    <a:if spec="${recipient.stripeAccountId != ''}">
 
          <form action="/tip/${recipient.id}" method="post">
 
@@ -251,6 +250,6 @@
 
         </script>
 
-    </stargzr:if>
+    </a:if>
 
 <div style="margin-top:300px;"></div>

@@ -5,7 +5,7 @@ create table if not exists users (
 	email character varying(253),
 	password character varying(155) NOT NULL,
 	clean character varying (251),
-	image_uri character varying (251),
+	photo text,
 	stripe_account_id character varying (250),
 	stripe_customer_id character varying (251),
 	activated boolean default false,

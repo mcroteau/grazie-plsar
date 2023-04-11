@@ -3,9 +3,9 @@
 <div id="signup-form-container">
 
 
-    <stargzr:if spec="${message != ''}">
+    <a:if spec="${message != ''}">
         <p class="notify">${message}</p>
-    </stargzr:if>
+    </a:if>
 
     <p style="text-align: left; margin-top:30px;">Are you already a member?
         <a href="/signin" class="href-dotted-black">Signin!</a>
@@ -28,7 +28,7 @@
             </stargzr:foreach>
         </select><br/>
 
-        <stargzr:if spec="${businesses.size() > 0}">
+        <a:if spec="${businesses.size() > 0}">
             <label>Place I Work</label>
             <select name="businessId" id="business" style="width:100%;text-align:center">
                 <option>Select One</option>
@@ -45,7 +45,7 @@
             <label>Password</label>
             <input type="password" name="password" style="width:80%;"/><br/>
 
-        </stargzr:if>
+        </a:if>
 
         <div class="button-wrapper" style="margin: 30px 0px;">
             <input type="submit" class="button retro" value="Sign Up!"

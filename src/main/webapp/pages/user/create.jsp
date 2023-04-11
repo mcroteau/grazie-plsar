@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 	<title>Edit Profile</title>
@@ -9,9 +8,9 @@
 
 		<a href="/users" id="prospect-back" class="href-dotted">&larr;&nbsp;Back</a>
 
-		<stargzr:if spec="${message != ''}">
+		<a:if spec="${message != ''}">
 			<div class="notify">${message}</div>
-		</stargzr:if>
+		</a:if>
 
 		<h1>New User</h1>
 

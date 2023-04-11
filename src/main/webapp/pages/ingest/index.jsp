@@ -1,8 +1,7 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<stargzr:if spec="${message != ''}">
+<a:if spec="${message != ''}">
     <p class="notify">${message}</p>
-</stargzr:if>
+</a:if>
 
 
 <h2>Data Ingest</h2>
@@ -19,8 +18,8 @@
         <input type="submit" value="Perform Ingest!" class="button green" style="width: 100%;"/>
     </div>
 </form>
-<stargzr:foreach items="${result.results}" var="place">
+<a:foreach items="${result.results}" var="place">
     <div>
         <h2>${place.name}</h2>
     </div>
-</stargzr:foreach>
+</a:foreach>

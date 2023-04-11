@@ -1,18 +1,17 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="reset-password-form">
 
-	<stargzr:if spec="${message != ''}">
+	<a:if spec="${message != ''}">
 		<div class="span12">
 			<div class="alert alert-info">${message}</div>
 		</div>
-	</stargzr:if>
+	</a:if>
 
-	<stargzr:if spec="${not empty error}">
+	<a:if spec="${not empty error}">
 		<div>
 			<div class="alert alert-danger">${error}</div>
 		</div>
-	</stargzr:if>
+	</a:if>
 
 
 	<h1>Reset Password</h1>

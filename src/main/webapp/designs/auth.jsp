@@ -125,17 +125,17 @@
         <br class="clear"/>
     </div>
 
-    <c:if test="${prospectActivities.size() > 0}">
+    <a:if test="${prospectActivities.size() > 0}">
         <div class="sales-activities">
-            <c:forEach items="${prospectActivities}" var="prospectActivity">
+            <a:forEach items="${prospectActivities}" var="prospectActivity">
                 <a href="/prospects/${prospectActivity.prospectId}" class="sales-activity">
                     <span class="activity-date"><strong>${prospectActivity.prettyTime}</strong> : ${prospectActivity.name}</span>
                     <span class="activity-prospect">${prospectActivity.prospectName}</span>
                 </a>
-            </c:forEach>
+            </a:forEach>
             <br class="clear"/>
         </div>
-    </c:if>
+    </a:if>
 
 
 

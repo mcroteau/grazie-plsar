@@ -1,5 +1,9 @@
 package shape;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
@@ -8,6 +12,7 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -29,7 +34,7 @@ public class Grazie {
 		plsar.setNumberOfPartitions(4);
 		plsar.setNumberOfRequestExecutors(10);
 
-		plsar.setSecurityAccess(AuthSecurityAccess.class);
+		plsar.setSecurityAccess(AuthAccess.class);
 
 		PersistenceConfig persistenceConfig = new PersistenceConfig();
 		persistenceConfig.setDriver(Drivers.H2);
@@ -61,26 +66,17 @@ public class Grazie {
 	}
 
 	public String getUserMaintenance(){
-		return "users::";
+		return "user:maintenance:";
 	}
-
 	public String getBusinessMaintenance(){
-		return "businesses::";
+		return "businesses:maintenance:";
 	}
 
+	public String getDonorRole(){return "donor-role";}
+	public String getSuperRole(){return "super-role";}
+	public String getUserRole(){return "user-role";}
 
-//	public static final String USER_MAINTENANCE     = "users::";
-//	public static final String BUSINESS_MAINTENANCE = "businesses::";
-
-	public String getDonorRole(){return "DONOR";}
-	public String getSuperRole(){return "SUPER_ROLE";}
-	public String getUserRole(){return "USER_ROLE";}
-
-//	public static final String DONOR_ROLE  = "DONOR";
-//	public static final String SUPER_ROLE  = "SUPER_ROLE";
-//	public static final String USER_ROLE   = "USER_ROLE";
-
-	public String getSuperUsername(){ return "croteau.mike@gmail.com"; }
+	public String getSuperEmail(){ return "croteau.mike@gmail.com"; }
 	public String getSuperPassword(){ return "password"; }
 
 //	public static final String SUPER_USERNAME = "croteau.mike@gmail.com";
@@ -244,6 +240,43 @@ public class Grazie {
 			pad(value, places, character);
 		}
 		return value;
+	}
+
+	public String getEncodedPrefix(String name) {
+		String ext = getExt(name);
+		if(ext.equals("jpeg"))return "data:image/jpeg;base64,";
+		if(ext.equals("jpg"))return "data:image/jpeg;base64,";
+		if(ext.equals("png"))return "data:image/png;base64,";
+		if(ext.equals("gif"))return "data:image/gif;base64,";
+		return "";
+	}
+
+	public String getEncoded(String photoPath) {
+		try {
+			File file = new File(photoPath);
+			FileInputStream stream = new FileInputStream(file);
+
+			int bufLength = 2048;
+			byte[] buffer = new byte[2048];
+			byte[] data;
+
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			int readLength;
+			while ((readLength = stream.read(buffer, 0, bufLength)) != -1) {
+				out.write(buffer, 0, readLength);
+			}
+
+			data = out.toByteArray();
+
+			out.close();
+			stream.close();
+
+			return Base64.getEncoder().withoutPadding().encodeToString(data);
+
+		}catch(IOException ioex){
+			ioex.printStackTrace();
+		}
+		return "";
 	}
 
 }

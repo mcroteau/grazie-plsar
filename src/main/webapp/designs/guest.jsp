@@ -85,7 +85,7 @@
                     <div style="margin:0px 0px 30px">
                         <a href="/snapshot" class="href-dotted-black">Snapshot</a>&nbsp;&nbsp;
                         <a href="/employment" class="href-dotted-black">Employment</a>&nbsp;&nbsp;
-                        <a href="/users/edit/${sessionScope.userId}" class="href-dotted-black">Profile</a>&nbsp;&nbsp;
+                        <a href="/users/edit/${sessionUserId}" class="href-dotted-black">Profile</a>&nbsp;&nbsp;
                     </div>
                 </plsar:authenticated>
 

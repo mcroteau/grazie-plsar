@@ -1,10 +1,7 @@
 package shape.web;
 
 import net.plsar.RouteAttributes;
-import net.plsar.annotations.Bind;
-import net.plsar.annotations.Component;
-import net.plsar.annotations.Controller;
-import net.plsar.annotations.Design;
+import net.plsar.annotations.*;
 import net.plsar.annotations.network.Get;
 import net.plsar.annotations.network.Post;
 import net.plsar.model.FileComponent;
@@ -13,6 +10,7 @@ import net.plsar.model.ViewCache;
 import net.plsar.model.RequestComponent;
 import net.plsar.security.SecurityManager;
 import shape.Grazie;
+import shape.before.SessionBefore;
 import shape.model.User;
 import shape.repo.UserRepo;
 import shape.service.SeaService;
@@ -20,6 +18,7 @@ import shape.service.SmsService;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 
 @Controller
@@ -41,6 +40,8 @@ public class UserRouter {
 		return grazie.getUserMaintenance() + id;
 	}
 
+	@Before({SessionBefore.class})
+	@Design("/designs/guest.jsp")
 	@Get("/users")
 	public String getUsers(NetworkRequest req, SecurityManager security, ViewCache cache){
 		if(!security.isAuthenticated(req)){
@@ -56,10 +57,10 @@ public class UserRouter {
 
 		cache.set("users", users);
 		cache.set("title", "Users");
-		cache.set("page", "/pages/user/index.jsp");
-		return "/designs/auth.jsp";
+		return "/pages/user/index.jsp";
 	}
 
+	@Before({SessionBefore.class})
 	@Design("/designs/auth.jsp")
 	@Get("/users/create")
 	public String create(NetworkRequest req, SecurityManager security, ViewCache cache){
@@ -107,6 +108,8 @@ public class UserRouter {
 		return "redirect:/users/edit/" + savedUser.getId();
 	}
 
+	@Before({SessionBefore.class})
+	@Design("/designs/guest.jsp")
 	@Get("/users/edit/{id}")
 	public String getEditUser(NetworkRequest req,
 							  SecurityManager security,
@@ -124,8 +127,7 @@ public class UserRouter {
 
 		cache.set("user", user);
 
-		cache.set("page", "/pages/user/edit.jsp");
-		return "/designs/guest.jsp";
+		return "/pages/user/edit.jsp";
 	}
 
 	@Post("/users/delete/{id}")
@@ -162,18 +164,11 @@ public class UserRouter {
 		RequestComponent requestComponent = req.getRequestComponent("media");
 		List<FileComponent> fileParts = requestComponent.getFileComponents();
 
-		RouteAttributes routeAttributes = req.getRouteAttributes();
-		String key = (String) routeAttributes.get("cloud.key");
-		String secret = (String) routeAttributes.get("cloud.secret");
 
-		for (FileComponent part : fileParts) {
-			String original = part.getFileName();
-			InputStream is = new ByteArrayInputStream(part.getFileBytes());
-			String ext = grazie.getExt(original);
-			String name = grazie.getString(16) + "." + ext;
-
-			seaService.send(name, key, secret, is);
-			user.setImageUri(grazie.getOceanEndpoint() + name);
+		for (FileComponent file : fileParts) {
+			String prefix = grazie.getEncodedPrefix(file.getFileName());
+			String image = Base64.getEncoder().withoutPadding().encodeToString(file.getFileBytes());
+			user.setPhoto(prefix + image);
 		}
 
 		String description = req.getValue("description");
@@ -197,6 +192,8 @@ public class UserRouter {
 		return "/pages/signup.jsp";
 	}
 
+	@Before({SessionBefore.class})
+	@Design("/designs/guest.jsp")
 	@Get("/users/reset")
 	public String reset(){
 		return "/pages/user/reset.jsp";
@@ -234,6 +231,7 @@ public class UserRouter {
 		return "redirect:/signin";
 	}
 
+	@Before({SessionBefore.class})
 	@Design("/designs/guest.jsp")
 	@Post("/users/reset/{id}")
 	public String resetPassword(NetworkRequest req,

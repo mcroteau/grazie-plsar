@@ -12,6 +12,9 @@ import shape.repo.RoleRepo;
 import shape.repo.TownRepo;
 import shape.repo.UserRepo;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 @ServerStartup
 public class Startup implements ServerListener {
 
@@ -51,6 +54,12 @@ public class Startup implements ServerListener {
             roleRepo.save(userRole);
         }
 
+        Path path = Paths.get("src", "main", "webapp", "assets", "media", "une.png");
+        String imageUri = path.toAbsolutePath().toString();
+        StringBuilder image = new StringBuilder();
+        image.append(grazie.getEncodedPrefix(imageUri));
+        image.append(grazie.getEncoded(imageUri));
+
         User existing = userRepo.getPhone("9073477052");
         String password = SecurityManager.dirty(grazie.getSuperPassword());
 
@@ -60,22 +69,24 @@ public class Startup implements ServerListener {
             User superUser = new User();
             superUser.setGuid(grazie.getString(8).toUpperCase());
             superUser.setUuid(grazie.getString(8).toUpperCase());
-            superUser.setName("Super UserCredential!");
+            superUser.setName("Super User!");
             superUser.setPhone("9073477052");
-            superUser.setEmail(grazie.getSuperRole());
+            superUser.setEmail(grazie.getSuperEmail());
             superUser.setPassword(password);
-            userRepo.save(superUser);
-            User savedUser = userRepo.getSaved();
-            userRepo.saveUserRole(savedUser.getId(), superRole.getId());
-            String permission = grazie.getUserMaintenance() + savedUser.getId();
-            userRepo.savePermission(savedUser.getId(), permission);
+            Integer id = userRepo.save(superUser);
+            superUser.setId(Long.parseLong(id.toString()));
+            superUser.setPhoto(image.toString());
+            userRepo.update(superUser);
+            userRepo.saveUserRole(id, superRole.getId());
+            String permission = grazie.getUserMaintenance() + id;
+            userRepo.savePermission(id, permission);
         }
 
-        genMocks(userRepo, townRepo, businessRepo);
+        genMocks(image, userRepo, townRepo, businessRepo);
 
     }
 
-    public void genMocks(UserRepo userRepo, TownRepo townRepo, BusinessRepo businessRepo){
+    public void genMocks(StringBuilder image, UserRepo userRepo, TownRepo townRepo, BusinessRepo businessRepo){
 
         String[] towns = new String[]{"Antilles", "Burbin Banks Delaware", "Habiskus"};
         for(String name: towns){
@@ -90,8 +101,8 @@ public class Startup implements ServerListener {
         }
 
         Business one = new Business();
-        one.setName("Software Projects Inc.");
-        one.setAddress("Software Projects Inc. Fairbanks Alaska");
+        one.setName("ae0n");
+        one.setAddress("ae0n Fairbanks Alaska");
         one.setLatitude("45.452191");
         one.setLongitude("-123.9128525");
         one.setTownId(1L);
@@ -113,8 +124,6 @@ public class Startup implements ServerListener {
         tres.setTownId(1L);
         businessRepo.save(tres);
 
-
-
         String[] names = new String[]{ "Mitch Rithmithgan",
                 "Cheech Nordom",
                 "Tito Chavez",
@@ -125,26 +134,30 @@ public class Startup implements ServerListener {
         for(int z = 0; z < names.length; z++){
             String name = names[z];
             User user = new User();
+            user.setName(name);
             user.setGuid(grazie.getString(8).toUpperCase());
             user.setUuid(grazie.getString(8).toUpperCase());
             user.setEmail("croteau.mike+" + z + "@gmail.com");
+            user.setPhone("9073477052");
             user.setPassword(SecurityManager.dirty("password"));
             user.setTownId(2L);
-            userRepo.save(user);
+            Integer id = userRepo.save(user);
 
-            User savedUser = userRepo.getSaved();
-            userRepo.saveUserRole(savedUser.getId(), grazie.getUserRole());
-            String permission = grazie.getUserMaintenance() + savedUser.getId();
-            userRepo.savePermission(savedUser.getId(), permission);
+            user.setId(Long.parseLong(id.toString()));
+            user.setPhoto(image.toString());
+            user.setName(name);
+            user.setPhone("9073477052");
+            user.setStripeAccountId("acct_1KKrmu2XYbZOgi9P");
+            userRepo.update(user);
 
-            savedUser.setImageUri("https://tips.sfo3.digitaloceanspaces.com/tnTPoUwD9.png");
-            savedUser.setName(name);
-            savedUser.setPhone("9079878652");
-            savedUser.setStripeAccountId("acct_1KKrmu2XYbZOgi9P");
-            userRepo.update(savedUser);
+
+            userRepo.saveUserRole(user.getId(), grazie.getUserRole());
+            String permission = grazie.getUserMaintenance() + user.getId();
+            userRepo.savePermission(user.getId(), permission);
+
 
             UserBusiness userBusiness = new UserBusiness();
-            userBusiness.setUserId(savedUser.getId());
+            userBusiness.setUserId(user.getId());
             userBusiness.setBusinessId(2L);
 
             userRepo.saveBusiness(userBusiness);
@@ -152,7 +165,7 @@ public class Startup implements ServerListener {
             UserBusiness savedUserBusiness = userRepo.getSavedBusiness();
 
             String businessPermission = grazie.getBusinessMaintenance() + savedUserBusiness.getId();
-            userRepo.savePermission(savedUser.getId(), businessPermission);
+            userRepo.savePermission(user.getId(), businessPermission);
 
         }
     }

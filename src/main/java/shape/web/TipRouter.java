@@ -9,16 +9,14 @@ import com.stripe.model.Token;
 import com.stripe.net.RequestOptions;
 import com.stripe.param.SubscriptionCreateParams;
 import net.plsar.RouteAttributes;
-import net.plsar.annotations.Bind;
-import net.plsar.annotations.Component;
-import net.plsar.annotations.Controller;
-import net.plsar.annotations.Design;
+import net.plsar.annotations.*;
 import net.plsar.annotations.network.Get;
 import net.plsar.annotations.network.Post;
 import net.plsar.model.NetworkRequest;
 import net.plsar.model.ViewCache;
 import net.plsar.security.SecurityManager;
 import shape.Grazie;
+import shape.before.SessionBefore;
 import shape.model.*;
 import shape.repo.TipRepo;
 import shape.repo.StripeRepo;
@@ -53,6 +51,7 @@ public class TipRouter {
     @Bind
     TipRepo tipRepo;
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/tip/{id}")
     public String tip(ViewCache cache,
@@ -315,6 +314,7 @@ public class TipRouter {
     }
 
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/tips/{guid}")
     public String tip(ViewCache cache,

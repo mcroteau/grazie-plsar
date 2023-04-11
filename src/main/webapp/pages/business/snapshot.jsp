@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
     .value.large{font-size:102px;}
@@ -7,14 +6,14 @@
 <h1 style="margin:20px 0px 0px;">Snapshot!</h1>
 <p><strong>${tips.size()}</strong> Tips Received!</p>
 
-    <stargzr:if spec="${tips.size() > 0}">
+    <a:if spec="${tips.size() > 0}">
         <table>
             <tr>
                 <th>Email</th>
                 <th>Amount</th>
                 <th>Monthly</th>
             </tr>
-            <stargzr:foreach items="${tips}" var="tip">
+            <a:foreach items="${tips}" var="tip">
                 <tr>
                     <td>${tip.email}</td>
                     <td style="text-align: center;"><strong>$${tip.amount}</strong></td>
@@ -27,11 +26,11 @@
                         </stargzr:if>
                     </td>
                 </tr>
-            </stargzr:foreach>
+            </a:foreach>
         </table>
-    </stargzr:if>
+    </a:if>
 
-<stargzr:if spec="${tips.size() == 0}">
+<a:if spec="${tips.size() == 0}">
     <p class="notify">No tips yet, check back though and stay to it! Good luck!</p>
-</stargzr:if>
+</a:if>
 

@@ -11,10 +11,13 @@ version "1.0"
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'libs'
+    }
 }
 
 dependencies {
-    implementation "net.plsar:plsar:1.90.0"
+    implementation files("libs/plsar-2.0.0.jar")
     implementation "mysql:mysql-connector-java:8.0.27"
     implementation "com.google.maps:google-maps-services:2.0.0"
     implementation "com.stripe:stripe-java:20.51.0"

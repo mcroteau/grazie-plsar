@@ -62,14 +62,14 @@ public class UserRepo {
 
 	public List<User> getList() {
 		String sql = "select * from users";
-		List<User> users = (ArrayList) dao.getList(sql, new Object[]{}, User.class);
+		List<User> users = dao.getList(sql, new Object[]{}, User.class);
 		return users;
 	}
 
-	public Boolean save(User user) {
+	public int save(User user) {
 		String sql = "insert into users (uuid, guid, name, phone, email, password, clean, date_created) " +
 				"values ('[+]','[+]','[+]','[+]','[+]','[+]','[+]',[+])";
-		dao.save(sql, new Object[]{
+		int id = dao.save(sql, new Object[]{
 				user.getUuid(),
 				user.getGuid(),
 				user.getName(),
@@ -79,7 +79,7 @@ public class UserRepo {
 				user.getClean(),
 				user.getDateCreated()
 		});
-		return true;
+		return id;
 	}
 
 	public Boolean saveBusiness(UserBusiness userBusiness) {
@@ -93,12 +93,12 @@ public class UserRepo {
 	}
 
 	public boolean update(User user) {
-		String sql = "update users set name = '[+]', phone = '[+]', image_uri = '[+]', " +
+		String sql = "update users set name = '[+]', phone = '[+]', photo = '[+]', " +
 				"stripe_account_id = '[+]', description = '[+]', activated = [+] where id = [+]";
 		dao.update(sql, new Object[]{
 				user.getName(),
 				user.getPhone(),
-				user.getImageUri(),
+				user.getPhoto(),
 				user.getStripeAccountId(),
 				user.getDescription(),
 				user.isActivated(),

@@ -2,6 +2,7 @@ package shape.web;
 
 import com.google.gson.Gson;
 import net.plsar.RouteAttributes;
+import net.plsar.annotations.Before;
 import net.plsar.annotations.Bind;
 import net.plsar.annotations.Controller;
 import net.plsar.annotations.Design;
@@ -11,6 +12,7 @@ import net.plsar.model.NetworkRequest;
 import net.plsar.model.ViewCache;
 import net.plsar.security.SecurityManager;
 import shape.Grazie;
+import shape.before.SessionBefore;
 import shape.model.Business;
 import shape.model.Place;
 import shape.model.Result;
@@ -43,6 +45,7 @@ public class IngestRouter {
     BusinessRepo businessRepo;
 
 
+    @Before({SessionBefore.class})
     @Design("/layouts/guest.jsp")
     @Get("ingest")
     public String index() { return "/pages/ingest/index.jsp"; }

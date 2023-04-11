@@ -14,6 +14,7 @@ import net.plsar.model.NetworkResponse;
 import net.plsar.model.ViewCache;
 import net.plsar.security.SecurityManager;
 import shape.Grazie;
+import shape.before.SessionBefore;
 import shape.model.*;
 import shape.repo.BusinessRepo;
 import shape.repo.TipRepo;
@@ -66,6 +67,7 @@ public class BasicRouter {
         return "redirect:/home";
     }
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/{guid}")
     public String giveTip(ViewCache cache,
@@ -81,6 +83,7 @@ public class BasicRouter {
         return "/pages/tip/index.jsp";
     }
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/asset/{uuid}")
     public String asset(ViewCache cache,
@@ -96,6 +99,7 @@ public class BasicRouter {
         return "/pages/tip/index.jsp";
     }
 
+    @Before({SessionBefore.class})
     @Meta(title = "Home!")
     @Design("/designs/guest.jsp")
     @Get("/home")
@@ -107,6 +111,7 @@ public class BasicRouter {
         return "/pages/home.jsp";
     }
 
+    @Before({SessionBefore.class})
     @Meta(title="Employment")
     @Design("/designs/guest.jsp")
     @Get("/employment")
@@ -134,6 +139,7 @@ public class BasicRouter {
         return "/pages/business/index.jsp";
     }
 
+    @Before({SessionBefore.class})
     @Meta(title="Snapshot!")
     @Design("/designs/guest.jsp")
     @Get("/snapshot")
@@ -154,22 +160,22 @@ public class BasicRouter {
             cache.set("page", "/pages/super/index.jsp");
         }
 
-        if(!security.hasRole(grazie.getSuperRole(), req)){
-            String credential = security.getUser(req);
-            User authUser = userRepo.getPhone(credential);
-            if(authUser == null){
-                authUser = userRepo.getEmail(credential);
-            }
-            List<Tip> tips = tipRepo.getList(authUser.getId());
-            for (Tip tip : tips) {
-                User patron = userRepo.get(tip.getPatronId());
-                tip.setEmail(patron.getEmail());
-            }
-            cache.set("tips", tips);
+        String credential = security.getUser(req);
+        User authUser = userRepo.getPhone(credential);
+        if(authUser == null){
+            authUser = userRepo.getEmail(credential);
         }
+        List<Tip> tips = tipRepo.getList(authUser.getId());
+        for (Tip tip : tips) {
+            User patron = userRepo.get(tip.getPatronId());
+            tip.setEmail(patron.getEmail());
+        }
+        cache.set("tips", tips);
+
         return "/pages/business/snapshot.jsp";
     }
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/discover")
     public String discover(NetworkRequest req,
@@ -217,11 +223,12 @@ public class BasicRouter {
         return "/pages/discover.jsp";
     }
 
+    @Before({SessionBefore.class})
+    @Design("/designs/guest.jsp")
     @Get("/signup_request")
     public String signupRequest(ViewCache cache){
         cache.set("title", "Business Request");
-        cache.set("page", "/pages/signup_request.jsp");
-        return "/designs/guest.jsp";
+        return "/pages/signup_request.jsp";
     }
 
     @Post("/signup_request/save")
@@ -327,6 +334,7 @@ public class BasicRouter {
         return "redirect:/signin";
     }
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/employment/create")
     public String createEmployment(NetworkRequest req,
@@ -415,6 +423,7 @@ public class BasicRouter {
         return "redirect:/employment";
     }
 
+    @Before({SessionBefore.class})
     @Design("/designs/guest.jsp")
     @Get("/businesses/edit/{id}")
     public String edit(NetworkRequest req,

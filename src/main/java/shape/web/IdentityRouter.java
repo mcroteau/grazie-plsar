@@ -1,6 +1,7 @@
 package shape.web;
 
 import net.plsar.RouteAttributes;
+import net.plsar.annotations.Before;
 import net.plsar.annotations.Bind;
 import net.plsar.annotations.Controller;
 import net.plsar.annotations.Design;
@@ -11,6 +12,7 @@ import net.plsar.model.NetworkResponse;
 import net.plsar.model.ViewCache;
 import net.plsar.security.SecurityManager;
 import shape.Grazie;
+import shape.before.SessionBefore;
 import shape.model.*;
 import shape.repo.BusinessRepo;
 import shape.repo.TownRepo;
@@ -70,6 +72,7 @@ public class IdentityRouter {
 		return "redirect:/";
 	}
 
+	@Before({SessionBefore.class})
 	@Design("/designs/guest.jsp")
 	@Get("/signin")
 	public String signin(NetworkRequest req,
@@ -79,6 +82,7 @@ public class IdentityRouter {
 		return "/pages/signin.jsp";
 	}
 
+	@Before({SessionBefore.class})
 	@Design("/designs/guest.jsp")
 	@Get("/signup")
 	public String signup(NetworkRequest req, ViewCache cache){
@@ -181,6 +185,7 @@ public class IdentityRouter {
 		return "redirect:/";
 	}
 
+	@Before({SessionBefore.class})
 	@Design("/designs/guest.jsp")
 	@Get("/unauthorized")
 	public String unauthorized(ViewCache cache){

@@ -8,7 +8,7 @@ public class User {
 	String phone;
 	String email;
 	String password;
-	String imageUri;
+	String photo;
 	String clean;
 	Long dateCreated;
 	Long townId;
@@ -75,12 +75,13 @@ public class User {
 		this.password = password;
 	}
 
-	public String getImageUri() {
-		return imageUri;
+	public String getPhoto() {
+		if(photo == null) return "";
+		return photo;
 	}
 
-	public void setImageUri(String imageUri) {
-		this.imageUri = imageUri;
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public String getClean() {
@@ -108,7 +109,7 @@ public class User {
 	}
 
 	public String getStripeAccountId() {
-		return stripeAccountId;
+		return this.stripeAccountId;
 	}
 
 	public void setStripeAccountId(String stripeAccountId) {
