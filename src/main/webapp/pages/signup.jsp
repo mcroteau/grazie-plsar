@@ -1,7 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div id="signup-form-container">
-
 
     <a:if spec="${message != ''}">
         <p class="notify">${message}</p>
@@ -14,29 +12,35 @@
     <h1 style="margin-top:60px;">Signup</h1>
     <p>Yes, I want to start receiving <strong>tips!</strong></p>
 
+    ${towns}
+
+    <a:foreach items="${towns}" var="town">
+        ${town.name}
+    </a:foreach>
 
     <form action="/register" method="post" id="form">
         <label>Town/City</label>
         <select name="townId" id="town" style="width:100%;">
             <option>Select a Town/City</option>
-            <stargzr:foreach items="${towns}" var="town">
-                <c:set var="selected" value=""/>
-                <stargzr:if spec="${town.id == townId}">
-                    <c:set var="selected" value="selected"/>
-                </stargzr:if>
+
+            <a:foreach items="${towns}" var="town">
+                <a:set var="selected" val=""/>
+                <a:if spec="${town.id == townId}">
+                    <a:set var="selected" val="selected"/>
+                </a:if>
                 <option value="${town.id}" ${selected}>${town.name}</option>
-            </stargzr:foreach>
+            </a:foreach>
         </select><br/>
 
         <a:if spec="${businesses.size() > 0}">
             <label>Place I Work</label>
             <select name="businessId" id="business" style="width:100%;text-align:center">
                 <option>Select One</option>
-                <stargzr:foreach items="${businesses}" var="business">
+                <a:foreach items="${businesses}" var="business">
                     <option value="${business.id}"
                             data-lat="${business.latitude}"
                             data-lon="${business.longitude}">${business.address}</option>
-                </stargzr:foreach>
+                </a:foreach>
             </select><br/>
 
             <label>Email</label>

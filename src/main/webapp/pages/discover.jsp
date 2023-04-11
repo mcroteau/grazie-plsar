@@ -2,15 +2,30 @@
 <h1>Person Locator!</h1>
 <p>Find the person you would like to tip!</p>
 
+<label>Town/City</label>
+
+<select name="townId" id="town" style="width:100%;">
+    <option>Select a Town/City</option>
+    <a:foreach items="${towns}" var="town">
+        <a:set var="selected" val=""/>
+        <a:if spec="${town.id == townId}">
+            <a:set var="selected" val="selected"/>
+        </a:if>
+        <option value="${town.id}"
+                data-lat="${town.latitude}"
+                data-lon="${town.longitude}" ${selected}>${town.name}</option>
+    </a:foreach>
+</select><br/>
+
 <a:if spec="${businesses.size() > 0}">
     <label>Business where the Person Worked!</label>
     <select name="businessId" id="business" style="width:100%;text-align:center">
         <option>Select One</option>
         <a:foreach items="${businesses}" var="busy">
 
-            <a:set var="selected" value=""/>
+            <a:set var="selected" val=""/>
             <a:if spec="${busy.id == business.id}">
-                <a:set var="selected" value="selected"/>
+                <a:set var="selected" val="selected"/>
             </a:if>
 
             <option value="${busy.id}"
@@ -20,7 +35,6 @@
         </a:foreach>
     </select><br/>
 
-    <%--    <div id="map" style="width:100%;height:300px;margin:40px 0px 0px;"></div>--%>
 </a:if>
 
 <h1 id="options">${business.name}</h1>
@@ -32,16 +46,16 @@
             <a:if spec="${person.name != ''}">
                 <tr>
                     <td>
-                        <a:if spec="${person.imageUri != ''}">
-                            <img src="${person.imageUri}" style="width:110px;border-radius:60px;padding:7px;border:solid 1px #deeaea"/>
+                        <a:if spec="${person.photo != ''}">
+                            <img src="${person.photo}" style="width:110px;border-radius:60px;padding:7px;border:solid 1px #deeaea"/>
                         </a:if>
-                        <a:if spec="${person.imageUri == ''}">
+                        <a:if spec="${person.photo == ''}">
                             <div class="image-placeholder" style="height:60px;width:60px;color:#fff;padding:20px 0px;border-radius: 62px;background:#3979E4;text-align: center;">${person.initials}</div>
                         </a:if>
                     </td>
                     <td>
                         <strong>${person.name}</strong><br/>
-                        <a:if spec="${person.userBusiness.position != '' && person.userBusiness.position != 'null'}">
+                        <a:if spec="${person.userBusiness.position != ''}">
                             Position : ${person.userBusiness.position}<br/>
                         </a:if>
                         <a:if spec="${person.userBusiness.dateStarted != 0}">
@@ -60,7 +74,7 @@
                             <span class="tiny">Full-time</span>
                         </a:if>
                     </td>
-                    <td><a href="/${person.guid}" class="button green">Send Tip $</a></td>
+                    <td><a href="/${person.guid}" class="button green">Give Gift $</a></td>
                 </tr>
             </a:if>
         </a:foreach>
@@ -74,20 +88,6 @@
 
 <div id="map" style="width:100%;height:300px;margin:40px 0px 0px;"></div>
 
-<label>Town/City</label>
-
-<select name="townId" id="town" style="width:100%;">
-    <option>Select a Town/City</option>
-    <a:foreach items="${towns}" var="town">
-        <a:set var="selected" val=""/>
-        <a:if spec="${town.id == townId}">
-            <a:set var="selected" val="selected"/>
-        </a:if>
-        <option value="${town.id}"
-                data-lat="${town.latitude}"
-                data-lon="${town.longitude}" ${selected}>${town.name}</option>
-    </a:foreach>
-</select><br/>
 
 
 

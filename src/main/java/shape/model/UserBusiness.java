@@ -62,7 +62,8 @@ public class UserBusiness {
     }
 
     public String getPosition() {
-        return position;
+        if(this.position == null) return "";
+        return this.position;
     }
 
     public void setPosition(String position) {

@@ -21,11 +21,14 @@ public class SessionBefore implements RouteEndpointBefore {
 
         Dao dao = new Dao(persistenceConfig);
         String activeUser = securityManager.getUser(req);
-        UserRepo userRepo = new UserRepo(dao);
-        User user = userRepo.get(activeUser);
-        Long id = user.getId();
-        viewCache.set("sessionUserId", id);
-        viewCache.set("sessionUser", activeUser);
+        if(activeUser != null &&
+                !activeUser.equals("")) {
+            UserRepo userRepo = new UserRepo(dao);
+            User user = userRepo.get(activeUser);
+            Long id = user.getId();
+            viewCache.set("sessionUserId", id);
+            viewCache.set("sessionUser", activeUser);
+        }
 
         return new BeforeResult();
     }
