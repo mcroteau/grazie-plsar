@@ -73,29 +73,29 @@
                     </h1>
                 </a>
 
-                <plsar:guest>
+                <a:guest>
                     <a href="/signup" class="href-dotted-black right-float"
                        style="margin-left:15px;margin-top:20px;display:inline-block">Signup!</a>
                     <a href="/signin" class="href-dotted-black right-float"
                             style="margin-left:15px;margin-top:20px;display:inline-block">Signin</a>
-                </plsar:guest>
+                </a:guest>
 
                 <br class="clear"/>
-                <plsar:authenticated>
+                <a:authenticated>
                     <div style="margin:0px 0px 30px">
                         <a href="/snapshot" class="href-dotted-black">Snapshot</a>&nbsp;&nbsp;
                         <a href="/employment" class="href-dotted-black">Employment</a>&nbsp;&nbsp;
                         <a href="/users/edit/${sessionUserId}" class="href-dotted-black">Profile</a>&nbsp;&nbsp;
                     </div>
-                </plsar:authenticated>
+                </a:authenticated>
 
                 <stargzr:content/>
 
-                <plsar:authenticated>
+                <a:authenticated>
                     <div class="button-wrapper-lonely">
                         <a href="/signout" class="href-dotted-black">Signout</a>
                     </div>
-                </plsar:authenticated>
+                </a:authenticated>
             </div>
         </div>
     </div>

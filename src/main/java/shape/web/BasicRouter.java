@@ -165,6 +165,10 @@ public class BasicRouter {
         if(authUser == null){
             authUser = userRepo.getEmail(credential);
         }
+        if(authUser == null){
+            cache.set("message", "cannot find user.");
+            return "redirect:/home";
+        }
         List<Tip> tips = tipRepo.getList(authUser.getId());
         for (Tip tip : tips) {
             User patron = userRepo.get(tip.getPatronId());

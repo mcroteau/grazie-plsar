@@ -28,26 +28,32 @@ public class AuthAccess implements SecurityAccess {
     @Override
     public Set<String> getRoles(String credential){
         User user = getUser(credential);
-        String sql = "select r.name as name from user_roles ur inner join roles r on r.id = ur.role_id where ur.user_id = [+]";
-        List<UserRole> rolesList = dao.getList(sql, new Object[]{ user.getId() }, UserRole.class);
-        Set<String> roles = new HashSet<>();
-        for(UserRole role: rolesList){
-            roles.add(role.getName());
-            System.out.println("r:" + role.getName());
+        if(user != null) {
+            String sql = "select r.name as name from user_roles ur inner join roles r on r.id = ur.role_id where ur.user_id = [+]";
+            List<UserRole> rolesList = dao.getList(sql, new Object[]{user.getId()}, UserRole.class);
+            Set<String> roles = new HashSet<>();
+            for (UserRole role : rolesList) {
+                roles.add(role.getName());
+                System.out.println("r:" + role.getName());
+            }
+            return roles;
         }
-        return roles;
+        return new HashSet();
     }
 
     @Override
     public Set<String> getPermissions(String credential){
         User user = getUser(credential);
-        String sql = "select permission from user_permissions where user_id = [+]";
-        List<UserPermission> permissionsList = dao.getList(sql, new Object[]{ user.getId() }, UserPermission.class);
-        Set<String> permissions = new HashSet<>();
-        for(UserPermission permission: permissionsList){
-            permissions.add(permission.getPermission());
+        if(user != null) {
+            String sql = "select permission from user_permissions where user_id = [+]";
+            List<UserPermission> permissionsList = dao.getList(sql, new Object[]{user.getId()}, UserPermission.class);
+            Set<String> permissions = new HashSet<>();
+            for (UserPermission permission : permissionsList) {
+                permissions.add(permission.getPermission());
+            }
+            return permissions;
         }
-        return permissions;
+        return new HashSet();
     }
 
     public User getUser(String credential){

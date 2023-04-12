@@ -62,7 +62,7 @@ input::placeholder,
 textarea::placeholder, th, td{
     vertical-align: middle;
     font-family: Roboto !important;
-    color: #262629;
+    color: #000;
     font-size: 29px;
 }
 
