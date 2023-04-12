@@ -108,7 +108,7 @@ public class BasicRouter {
         List<Business> businesses = businessRepo.getList(Long.valueOf(1));
         cache.set("business", business);
         cache.set("businesses", businesses);
-        return "/pages/home.jsp";
+        return "/pages/index.jsp";
     }
 
     @Before({SessionBefore.class})
@@ -275,59 +275,6 @@ public class BasicRouter {
         return "redirect:/snapshot";
     }
 
-    @Post("/stripe/activate/{id}")
-    public String activateAccount(NetworkRequest req,
-                                  NetworkResponse resp,
-                                  SecurityManager security,
-                                  ViewCache cache,
-                                  @Component Long id) {
-        if(!security.isAuthenticated(req)){
-            return "redirect:/";
-        }
-
-        AccountCreateParams accountParams =
-                AccountCreateParams.builder()
-                        .setType(AccountCreateParams.Type.STANDARD)
-                        .build();
-
-        try {
-
-            RouteAttributes routeAttributes = req.getRouteAttributes();
-            String apiKey = (String) routeAttributes.get("stripe.key");
-            String host = (String) routeAttributes.get("system.host");
-
-            String refreshUrl = host + "/noop";
-            String returnUrl = host + "/stripe/activated/" + id;
-
-            Stripe.apiKey = apiKey;
-
-            Account account = Account.create(accountParams);
-            AccountLinkCreateParams linkParams =
-                    AccountLinkCreateParams.builder()
-                            .setAccount(account.getId())
-                            .setRefreshUrl(refreshUrl)
-                            .setReturnUrl(returnUrl)
-                            .setType(AccountLinkCreateParams.Type.ACCOUNT_ONBOARDING)
-                            .build();
-
-            AccountLink accountLink = AccountLink.create(linkParams);
-
-            User user = userRepo.get(id);
-            user.setStripeAccountId(account.getId());
-            userRepo.update(user);
-
-            resp.setRedirect(true);
-            req.setRedirectLocation(accountLink.getUrl());
-
-        }catch(Exception ex){
-            ex.printStackTrace();
-            cache.set("message", "We are sorry! Something needs to be fixed. Will you contact us and let us know?");
-            return "redirect:/";
-        }
-
-        return "";
-    }
-
     @Get("/stripe/activated/{id}")
     public String activated(ViewCache data,
                             @Component Long id){
@@ -477,7 +424,6 @@ public class BasicRouter {
     @Get("/noop")
     public String noop(ViewCache data){
         data.set("message", "noop!");
-        data.set("page", "/pages/home.jsp");
-        return "designs/guest.jsp";
+        return "/pages/home.jsp";
     }
 }

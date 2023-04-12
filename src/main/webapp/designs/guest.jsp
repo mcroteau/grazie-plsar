@@ -50,16 +50,20 @@
     }
     .select2-results__option{text-align:left}
 
-    .container{box-shadow: none;}
-    .logo-wrapper{text-decoration: none;}
+    .push-right{float:right}
+    .container{box-shadow: none;width:78%; margin:auto;}
+    .navigation{margin-top:20px;}
+    .navigation a{font-size:16px; font-weight:bold; text-decoration: none }
+    .logo-wrapper{text-decoration: none; float:left}
     .logo-wrapper h1{font-family:Dongle !important;line-height: 1.0em;margin:0px;font-size:60px;}
-    #tagline{z-index:3;font-size:19px;margin:-40px 0px 40px;display:block;}
+    #tagline{z-index:3;font-size:19px;margin:-40px 0px 0px;display:block;}
 </style>
+
 
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
-            <div id="guest-wrapper" style="margin:0px 30px;">
+            <div id="guest-wrapper" style="margin:0px 0px;">
                 <a href="/home" class="logo-wrapper left-float" style="display:block;margin:0px 0px 0px;">
                     <h1 class="logo" style="color:#000">
                         Grazie
@@ -68,21 +72,30 @@
                                     display:inline-block;
                                     font-size:90px;
                                     margin-left:-10px;">!</span></span>
-                        <span class="lightf" id="tagline">
-                            Because the guy at <br/>McDonald's works hard!</span>
+<%--                        <span class="lightf" id="tagline">--%>
+<%--                            Because the guy at <br/>McDonald's works hard!</span>--%>
                     </h1>
                 </a>
 
-                <a:guest>
-                    <a href="/signup" class="href-dotted-black right-float"
-                       style="margin-left:15px;margin-top:20px;display:inline-block">Signup!</a>
-                    <a href="/signin" class="href-dotted-black right-float"
-                            style="margin-left:15px;margin-top:20px;display:inline-block">Signin</a>
-                </a:guest>
+                <div class="push-right navigation">
+                    <a:guest>
+                        <a href="/signup" class="right-float"
+                           style="margin-left:15px;margin-top:20px;display:inline-block">Signup!</a>
+                        <a href="/signin" class="right-float"
+                           style="margin-left:15px;margin-top:20px;display:inline-block">Signin</a>
+                    </a:guest>
+                    <a href="/signup_request" class="right-float"
+                       style="margin-left:15px;margin-top:20px;display:inline-block">Add a Business</a>
+                    <a href="/discover" class="right-float"
+                       style="margin-left:15px;margin-top:20px;display:inline-block">Send Someone a Tip!</a>
+                    <a href="/home" class="right-float"
+                       style="margin-left:15px;margin-top:20px;display:inline-block">Home</a>
+                </div>
 
                 <br class="clear"/>
+
                 <a:authenticated>
-                    <div style="margin:0px 0px 30px">
+                    <div style="margin:0px 0px 0px">
                         <a href="/snapshot" class="href-dotted-black">Snapshot</a>&nbsp;&nbsp;
                         <a href="/employment" class="href-dotted-black">Employment</a>&nbsp;&nbsp;
                         <a href="/users/edit/${sessionUserId}" class="href-dotted-black">Profile</a>&nbsp;&nbsp;

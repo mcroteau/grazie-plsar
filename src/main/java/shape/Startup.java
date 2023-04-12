@@ -67,8 +67,8 @@ public class Startup implements ServerListener {
 
         if(existing == null){
             User superUser = new User();
-            superUser.setGuid(grazie.getString(8).toUpperCase());
-            superUser.setUuid(grazie.getString(8).toUpperCase());
+            superUser.setGuid(grazie.getString(28).toUpperCase());
+            superUser.setUuid(grazie.getString(28).toUpperCase());
             superUser.setName("Super User!");
             superUser.setPhone("9073477052");
             superUser.setEmail(grazie.getSuperEmail());
@@ -135,8 +135,8 @@ public class Startup implements ServerListener {
             String name = names[z];
             User user = new User();
             user.setName(name);
-            user.setGuid(grazie.getString(8).toUpperCase());
-            user.setUuid(grazie.getString(8).toUpperCase());
+            user.setGuid(grazie.getString(28).toUpperCase());
+            user.setUuid(grazie.getString(28).toUpperCase());
             user.setEmail("croteau.mike+" + z + "@gmail.com");
             user.setPhone("9073477052");
             user.setPassword(SecurityManager.dirty("password"));

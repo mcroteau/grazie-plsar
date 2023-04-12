@@ -74,7 +74,7 @@
                             <span class="tiny">Full-time</span>
                         </a:if>
                     </td>
-                    <td><a href="/${person.guid}" class="button green">Give Tip $</a></td>
+                    <td><a href="/${person.guid}" class="button green">Tip $</a></td>
                 </tr>
             </a:if>
         </a:foreach>

@@ -36,11 +36,14 @@
     }
     #custom,
     #custom:hover{
+        font-size:29px !important;
+        font-weight:bold !important;
         display: inline-block;
         box-shadow: none !important;
         text-align: center;
         text-transform: none;
-        width:170px !important;
+        width:90px !important;
+        padding:6px 3px !important;
     }
     label{margin-top:4px;}
     #tip-button{
@@ -112,14 +115,14 @@
 
             <div id="donation-options" class="live">
                 <div id="donation-durations">
-                    <a href="javascript:"  class="button active serious bubble duration" id="once">Tip Em' Once</a>
-                    <a href="javascript:"  class="button serious bubble duration" data-recurring="true">Tip Em' Monthly</a>
+                    <a href="javascript:"  class="button active serious bubble duration" id="once">Tip Em' Once!</a>
+                    <a href="javascript:"  class="button serious bubble duration" data-recurring="true">Tip Em' Monthly!</a>
                 </div>
 
                 <a href="javascript:" class="option button active" id="three" data-amount="3">$3</a>&nbsp;
                 <a href="javascript:" class="option button" data-amount="5">$5</a>&nbsp;
                 <a href="javascript:" class="option button" data-amount="10">$10</a>&nbsp;
-                <span style="display: inline-block;margin-right:4px;font-size:19px;">$</span><input type="text" class="option button" id="custom" placeholder="Other Amount" style="width:150px;" data-amount="0"/>
+                <span style="display: inline-block;margin-right:4px;font-size:19px;">$</span><input type="text" class="option" id="custom" placeholder="Other" style="width:150px;" data-amount="0"/>
             </div>
 
 
@@ -191,17 +194,16 @@
 
                 $custom.focus(function(){
                     $custom.val('');
-                    $custom.addClass('active');
                 })
 
                 const name ="${recipient.name}";
 
                 $custom.mouseleave(function(){
                     if($custom.val() == ''){
-                        $custom.attr('placeholder', 'Other Amount');
+                        $custom.attr('placeholder', 'Other');
                     }
                     if($custom.val() != ''){
-                        $amount.val('Send $' + value + ' tip');
+                        $amount.val('Send $' + value + ' Tip!');
                         $amountInput.val($custom.val())
                     }
                 });
@@ -209,7 +211,7 @@
                 $custom.change(function(){
                     var value = $custom.val()
                     if(!isNaN(value)){
-                        $amount.val('Send $' + value + ' tip');
+                        $amount.val('Send $' + value + ' Tip!');
                         $amountInput.val(value)
                     }else{
                         alert('Please enter a valid amount');
@@ -237,7 +239,7 @@
                         if(amount != '' &&
                             amount != 0 &&
                             !isNaN(amount)) {
-                            $amount.val('Send $' + amount + ' tip');
+                            $amount.val('Send $' + amount + ' Tip!');
                             $amountInput.val(amount)
                         }
                     }

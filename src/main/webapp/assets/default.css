@@ -173,8 +173,8 @@ input[type="submit"].button{
     padding:17px 26px;
     line-height: 1.0em;
     display:inline-block;
-    background:#3979E4;
-    border:solid 1px #3979E4;
+    background: #0090ff;
+    border:solid 1px #0090FFFF;
     text-decoration:none;
     border-radius: 50px;
     -moz-border-radius: 50px;
@@ -467,7 +467,7 @@ input[type="number"]:hover,
 input[type="number"]:active{
     color:#000;
     font-weight:300 !important;
-    font-size: 29px !important;
+    font-size: 19px !important;
     line-height: 1.4em !important;
     padding: 13px 17px !important;
     background:#f7fafb;

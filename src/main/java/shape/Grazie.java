@@ -171,7 +171,7 @@ public class Grazie {
 	public String getString(int n) {
 		String CHARS = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";
 		StringBuilder uuid = new StringBuilder();
-		int divisor = n/2;
+		int divisor = n/7;
 		Random rnd = new Random();
 		for(int z = 0; z < n;  z++) {
 			if( z % divisor == 0 && z > 0) {

@@ -1,5 +1,10 @@
 package shape.web;
 
+import com.stripe.Stripe;
+import com.stripe.model.Account;
+import com.stripe.model.AccountLink;
+import com.stripe.param.AccountCreateParams;
+import com.stripe.param.AccountLinkCreateParams;
 import net.plsar.RouteAttributes;
 import net.plsar.annotations.Before;
 import net.plsar.annotations.Bind;
@@ -142,16 +147,16 @@ public class IdentityRouter {
 			return "redirect:/signup?z=" + signMeUp.getTownId();
 		}
 
-		userRepo.save(user);
+		Integer id = userRepo.save(user);
+		user.setId(Long.parseLong(id.toString()));
 
-		User savedUser = userRepo.getSaved();
-		userRepo.saveUserRole(savedUser.getId(), grazie.getUserRole());
+		userRepo.saveUserRole(user.getId(), grazie.getUserRole());
 
-		String permission = grazie.getUserMaintenance() + savedUser.getId();
-		userRepo.savePermission(savedUser.getId(), permission);
+		String permission = grazie.getUserMaintenance() + user.getId();
+		userRepo.savePermission(user.getId(), permission);
 
 		UserBusiness userBusiness = new UserBusiness();
-		userBusiness.setUserId(savedUser.getId());
+		userBusiness.setUserId(user.getId());
 		userBusiness.setBusinessId(signMeUp.getBusinessId());
 		userRepo.saveBusiness(userBusiness);
 
@@ -162,9 +167,46 @@ public class IdentityRouter {
 		Business business = businessRepo.get(signMeUp.getBusinessId());
 		try{
 			RouteAttributes routeAttributes = req.getRouteAttributes();
-			String key = (String) routeAttributes.get("sms.key");
-			smsService.send("9079878652", "conversion, " + user.getEmail() + " @ " + business.getName(), key);
+			String key = routeAttributes.get("sms.key");
+			smsService.send("9073477052", "conversion, " + user.getEmail() + " @ " + business.getName(), key);
 		}catch(Exception ex){}
+
+		AccountCreateParams accountParams =
+				AccountCreateParams.builder()
+						.setType(AccountCreateParams.Type.STANDARD)
+						.build();
+
+		try {
+
+			RouteAttributes routeAttributes = req.getRouteAttributes();
+			String apiKey = routeAttributes.get("stripe.key");
+			String host = routeAttributes.get("system.host");
+
+			String refreshUrl = host + "/noop";
+			String returnUrl = host + "/stripe/activated/" + id;
+
+			Stripe.apiKey = apiKey;
+
+			Account account = Account.create(accountParams);
+			AccountLinkCreateParams linkParams =
+					AccountLinkCreateParams.builder()
+							.setAccount(account.getId())
+							.setRefreshUrl(refreshUrl)
+							.setReturnUrl(returnUrl)
+							.setType(AccountLinkCreateParams.Type.ACCOUNT_ONBOARDING)
+							.build();
+
+			AccountLink accountLink = AccountLink.create(linkParams);
+
+			user.setStripeAccountId(account.getId());
+			userRepo.update(user);
+
+		}catch(Exception ex){
+			ex.printStackTrace();
+			cache.set("message", "We are sorry! Something needs to be fixed. Will you contact us and let us know?");
+			return "redirect:/";
+		}
+
 
 		if(!security.signin(user.getEmail(), password, req, resp)){
 			cache.set("message", "Successfully registered, you now need to activate your account");
