@@ -89,7 +89,7 @@
                     </div>
                 </a:authenticated>
 
-                <stargzr:content/>
+                <a:render/>
 
                 <a:authenticated>
                     <div class="button-wrapper-lonely">
